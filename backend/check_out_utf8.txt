@@ -1,0 +1,6 @@
+﻿Γ£à db.js OK
+Γ£à middleware/auth.js OK
+Γ£à routes/auth.js OK
+Γ£à routes/tests.js OK
+Γ£à routes/dashboard.js OK
+Check complete.

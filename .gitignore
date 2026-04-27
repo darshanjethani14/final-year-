@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# Build outputs
+dist/
+build/
+*.log
+
+# IDEs
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Large Model files (If you want to host models on Hugging Face separately, exclude them here)
+model/Final_Speaking_Model/
+model/Final_Writing_Model/

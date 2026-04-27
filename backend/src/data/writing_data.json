@@ -1,0 +1,116 @@
+{
+  "task1": [
+    {
+      "id": "T1_001",
+      "word_limit": "150-200",
+      "topic": "Describe the advantages and disadvantages of using public transportation in large cities."
+    },
+    {
+      "id": "T1_002",
+      "word_limit": "150-200",
+      "topic": "Discuss the importance of learning English for students in non-English speaking countries."
+    },
+    {
+      "id": "T1_003",
+      "word_limit": "150-200",
+      "topic": "Explain how technology has changed the way people communicate with each other."
+    },
+    {
+      "id": "T1_004",
+      "word_limit": "150-200",
+      "topic": "Discuss the benefits of regular exercise for young people."
+    },
+    {
+      "id": "T1_005",
+      "word_limit": "150-200",
+      "topic": "Describe the impact of social media on students’ academic performance."
+    },
+    {
+      "id": "T1_006",
+      "word_limit": "150-200",
+      "topic": "Discuss the advantages of living in a small town compared to a big city."
+    },
+    {
+      "id": "T1_007",
+      "word_limit": "150-200",
+      "topic": "Explain why teamwork is important in the workplace."
+    },
+    {
+      "id": "T1_008",
+      "word_limit": "150-200",
+      "topic": "Discuss the role of teachers in motivating students to learn."
+    },
+    {
+      "id": "T1_009",
+      "word_limit": "150-200",
+      "topic": "Describe the benefits of reading books regularly."
+    },
+    {
+      "id": "T1_010",
+      "word_limit": "150-200",
+      "topic": "Discuss the effects of online shopping on traditional stores."
+    }
+  ],
+  "task2": [
+    {
+      "id": "T2_001",
+      "word_limit": "250-300",
+      "topic": "Some people believe that technology makes life easier, while others think it creates more problems. Discuss both views and give your opinion."
+    },
+    {
+      "id": "T2_002",
+      "word_limit": "250-300",
+      "topic": "Many people believe that students should learn practical skills at school. Others think academic subjects are more important. Discuss both views and give your opinion."
+    },
+    {
+      "id": "T2_003",
+      "word_limit": "250-300",
+      "topic": "Online education is becoming more common. Do the advantages outweigh the disadvantages?"
+    },
+    {
+      "id": "T2_004",
+      "word_limit": "250-300",
+      "topic": "Some people think governments should spend more money on public transport, while others believe building roads is more important. Discuss both views."
+    },
+    {
+      "id": "T2_005",
+      "word_limit": "250-300",
+      "topic": "Many people believe that social media has a negative effect on society. To what extent do you agree or disagree?"
+    },
+    {
+      "id": "T2_006",
+      "word_limit": "250-300",
+      "topic": "Some people prefer living in cities, while others prefer living in rural areas. Discuss both views and give your opinion."
+    },
+    {
+      "id": "T2_007",
+      "word_limit": "250-300",
+      "topic": "The use of smartphones among children is increasing. What are the advantages and disadvantages of this trend?"
+    },
+    {
+      "id": "T2_008",
+      "word_limit": "250-300",
+      "topic": "Some people think university education should be free for everyone. Others believe students should pay for their education. Discuss both views."
+    },
+    {
+      "id": "T2_009",
+      "word_limit": "250-300",
+      "topic": "Working from home is becoming more popular. Do you think this is a positive or negative development?"
+    },
+    {
+      "id": "T2_010",
+      "word_limit": "250-300",
+      "topic": "Some people believe that competition is good for children, while others think cooperation is better. Discuss both views and give your opinion."
+    },
+    {
+      "id": "T2_011",
+      "word_limit": "250-300",
+      "topic": "Environmental problems are increasing worldwide. What are the causes and what solutions can be implemented?"
+    },
+    {
+      "id": "T2_012",
+      "word_limit": "250-300",
+      "topic": "Some people believe that advertisements influence people’s choices. Others think people are not affected. Discuss both views."
+    }
+  ]
+}
