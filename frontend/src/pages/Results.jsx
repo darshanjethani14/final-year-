@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import { useAuth } from "../AuthContext";
 
-const BACKEND = "http://localhost:4000";
+import { BACKEND_URL as BACKEND } from "../apiConfig";
 
 function Results() {
   const { student, token, handleAuthError } = useAuth();

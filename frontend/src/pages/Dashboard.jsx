@@ -113,7 +113,7 @@ function Dashboard() {
     }
     const fetchDashboard = async () => {
       try {
-        const res = await fetch(`http://localhost:4000/api/dashboard/summary/${student.id}`, {
+        const res = await fetch(`https://final-year-q6ki.onrender.com/api/dashboard/summary/${student.id}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }

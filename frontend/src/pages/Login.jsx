@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
-const API_BASE = "http://localhost:4000/api";
+import { API_BASE } from "../apiConfig";
 
 function Login() {
   const [mode, setMode] = useState("login"); // "login" | "forgot-password"

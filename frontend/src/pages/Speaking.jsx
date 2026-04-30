@@ -7,7 +7,7 @@ import AIEvaluationModal from "../components/AIEvaluationModal";
 import { useAuth } from "../AuthContext";
 import RecordRTC, { StereoAudioRecorder } from 'recordrtc';
 
-const BACKEND = "http://localhost:4000";
+import { BACKEND_URL as BACKEND } from "../apiConfig";
 
 const DEFAULT_PARTS = [
   {

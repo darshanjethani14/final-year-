@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { useAuth } from "../AuthContext";
 
-const API_BASE = "http://localhost:4000/api";
+import { API_BASE } from "../apiConfig";
 
 function VerifyCode() {
   const [input, setInput] = useState("");

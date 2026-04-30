@@ -7,7 +7,7 @@ import ConfirmSubmitModal from "../components/ConfirmSubmitModal";
 import AIEvaluationModal from "../components/AIEvaluationModal";
 import { useAuth } from "../AuthContext";
 
-const BACKEND = "http://localhost:4000";
+import { BACKEND_URL as BACKEND } from "../apiConfig";
 
 // ─── Small helper components ──────────────────────────────────────────────────
 
