@@ -754,4 +754,4 @@ if __name__ == "__main__":
     print("    POST /evaluate-reading  → Reading (rule-based)")
     print("    GET  /health            → Health check")
     print("=" * 60)
-    app.run(host="0.0.0.0", port=5001, debug=False)
+    app.run(host="0.0.0.0", port=7860, debug=False)
