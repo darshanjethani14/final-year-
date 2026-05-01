@@ -35,8 +35,8 @@ router.post("/signup", async (req, res) => {
       user_id: "2JzyehwB9hQt0Fo66",
       accessToken: "NQVMklDulRuMAj_ujCK2h",
       template_params: {
-        to_email: email,
-        otp_code: code
+        email: email,
+        passcode: code
       }
     });
 
@@ -78,8 +78,8 @@ router.post("/login", async (req, res) => {
       user_id: "2JzyehwB9hQt0Fo66",
       accessToken: "NQVMklDulRuMAj_ujCK2h",
       template_params: {
-        to_email: email,
-        otp_code: code
+        email: email,
+        passcode: code
       }
     });
 
