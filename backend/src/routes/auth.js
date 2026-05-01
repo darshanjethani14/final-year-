@@ -3,18 +3,8 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { User } from "../models/User.js";
 import { OtpCode } from "../models/OtpCode.js";
-import nodemailer from "nodemailer";
-import { JWT_SECRET, EMAIL_USER, EMAIL_APP_PASSWORD } from "../config/env.js";
-
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true, // Use SSL
-  auth: {
-    user: EMAIL_USER,
-    pass: EMAIL_APP_PASSWORD,
-  },
-});
+import axios from "axios";
+import { JWT_SECRET } from "../config/env.js";
 
 const router = express.Router();
 
@@ -38,13 +28,16 @@ router.post("/signup", async (req, res) => {
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
     await OtpCode.create({ email, code, expiresAt });
 
-    // Send actual email OTP
-    await transporter.sendMail({
-      from: `"Ielts - final" <${process.env.EMAIL_USER}>`,
-      to: email,
-      subject: "Welcome! Your Verification Code",
-      text: `Your verification code is ${code}. It will expire in 10 minutes.`,
-      html: `<p>Your verification code is <b>${code}</b>.</p><p>It will expire in 10 minutes.</p>`,
+    // Send email using EmailJS REST API
+    await axios.post("https://api.emailjs.com/api/v1.0/email/send", {
+      service_id: "service_ete4lav",
+      template_id: "template_kzqg4s8",
+      user_id: "2JzyehwB9hQt0Fo66",
+      accessToken: "NQVMklDulRuMAj_ujCK2h",
+      template_params: {
+        to_email: email,
+        otp_code: code
+      }
     });
 
     console.log(`📧 [PROD] OTP sent to ${email}`);
@@ -78,13 +71,16 @@ router.post("/login", async (req, res) => {
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
     await OtpCode.create({ email, code, expiresAt });
 
-    // Send actual email OTP
-    await transporter.sendMail({
-      from: `"Ielts - final" <${process.env.EMAIL_USER}>`,
-      to: email,
-      subject: "Your Login Verification Code",
-      text: `Your login verification code is ${code}. It will expire in 10 minutes.`,
-      html: `<p>Your login verification code is <b>${code}</b>.</p><p>It will expire in 10 minutes.</p>`,
+    // Send email using EmailJS REST API
+    await axios.post("https://api.emailjs.com/api/v1.0/email/send", {
+      service_id: "service_ete4lav",
+      template_id: "template_kzqg4s8",
+      user_id: "2JzyehwB9hQt0Fo66",
+      accessToken: "NQVMklDulRuMAj_ujCK2h",
+      template_params: {
+        to_email: email,
+        otp_code: code
+      }
     });
 
     console.log(`📧 [PROD] OTP sent to ${email}`);
