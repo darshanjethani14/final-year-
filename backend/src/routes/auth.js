@@ -28,19 +28,20 @@ router.post("/signup", async (req, res) => {
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
     await OtpCode.create({ email, code, expiresAt });
 
-    // Send email using EmailJS REST API
-    await axios.post("https://api.emailjs.com/api/v1.0/email/send", {
-      service_id: "service_ete4lav",
-      template_id: "template_kzqg4s8",
-      user_id: "2JzyehwB9hQt0Fo66",
-      accessToken: "NQVMklDulRuMAj_ujCK2h",
-      template_params: {
-        email: email,
-        passcode: code
-      }
-    });
-
-    console.log(`📧 [PROD] OTP sent to ${email}`);
+    console.log(`📧 Sending OTP ${code} to ${email}...`);
+    try {
+      const ejsRes = await axios.post("https://api.emailjs.com/api/v1.0/email/send", {
+        service_id: "service_ete4lav",
+        template_id: "template_kzqg4s8",
+        user_id: "2JzyehwB9hQt0Fo66",
+        accessToken: "NQVMklDulRuMAj_ujCK2h",
+        template_params: { email: email, passcode: code }
+      });
+      console.log(`✅ OTP email sent to ${email}`, ejsRes.status);
+    } catch (emailErr) {
+      console.error("❌ EmailJS Error:", emailErr.response?.status, JSON.stringify(emailErr.response?.data));
+      throw new Error(`Email send failed: ${emailErr.response?.data || emailErr.message}`);
+    }
 
     res.status(201).json({ userId: user._id, email, message: "OTP sent" });
   } catch (err) {
@@ -71,19 +72,21 @@ router.post("/login", async (req, res) => {
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
     await OtpCode.create({ email, code, expiresAt });
 
-    // Send email using EmailJS REST API
-    await axios.post("https://api.emailjs.com/api/v1.0/email/send", {
-      service_id: "service_ete4lav",
-      template_id: "template_kzqg4s8",
-      user_id: "2JzyehwB9hQt0Fo66",
-      accessToken: "NQVMklDulRuMAj_ujCK2h",
-      template_params: {
-        email: email,
-        passcode: code
-      }
-    });
+    console.log(`📧 Sending OTP ${code} to ${email}...`);
+    try {
+      const ejsRes = await axios.post("https://api.emailjs.com/api/v1.0/email/send", {
+        service_id: "service_ete4lav",
+        template_id: "template_kzqg4s8",
+        user_id: "2JzyehwB9hQt0Fo66",
+        accessToken: "NQVMklDulRuMAj_ujCK2h",
+        template_params: { email: email, passcode: code }
+      });
+      console.log(`✅ OTP email sent to ${email}`, ejsRes.status);
+    } catch (emailErr) {
+      console.error("❌ EmailJS Error:", emailErr.response?.status, JSON.stringify(emailErr.response?.data));
+      throw new Error(`Email send failed: ${emailErr.response?.data || emailErr.message}`);
+    }
 
-    console.log(`📧 [PROD] OTP sent to ${email}`);
 
     res.json({ email, message: "OTP sent" });
   } catch (err) {

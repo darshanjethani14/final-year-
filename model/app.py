@@ -37,7 +37,7 @@ CORS(app) # Enable CORS for all routes
 # ── Model paths (relative to this file) ──────────────────────────────────────
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SPEAKING_MODEL_PATH = os.path.join(BASE_DIR, "Final_Speaking_Model", "content", "drive", "MyDrive", "IELTS_Project_Speaking", "Final_Speaking_Model")
-WRITING_MODEL_PATH  = os.path.join(BASE_DIR, "Final_Writing_Model")  # new fine-tuned writing model
+WRITING_MODEL_PATH  = "darshanjethani1/Final_Writing_Model"  # HuggingFace Hub repo
 MERGED_MODEL_PATH   = os.path.join(BASE_DIR, "merged_model")
 
 # Force CPU (no GPU on this machine)
