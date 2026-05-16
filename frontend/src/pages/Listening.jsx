@@ -76,6 +76,7 @@ function Listening() {
   
   const audioRef = useRef(null);
   const phaseTimerRef = useRef(null);
+  const [playbackRate, setPlaybackRate] = useState(1.0);
 
   // --- NEW: Section-by-Section Feedback State ---
   const [sectionResult, setSectionResult] = useState(null);
@@ -354,34 +355,97 @@ function Listening() {
   return (
     <div className="min-h-screen flex flex-col bg-[#F9FAFB]">
       <header className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <div>
-              <h1 className="text-lg font-black text-gray-800 uppercase tracking-tight">Part {currentPart}</h1>
-              <p className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest flex items-center gap-2">
-                {phase === 'playing' && <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />}
-                {phase === 'prep' ? `PREPARING: ${phaseTime}s` : phase === 'playing' ? `LIVE AUDIO` : phase === 'review' ? `REVIEWING: ${phaseTime}s` : `EVALUATING`}
-              </p>
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">
+                <svg className="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072M12 9.5l-.75.75a3.5 3.5 0 000 4.95l.75.75m0-6.45v6.45M6.464 8.464a5 5 0 000 7.072" />
+                </svg>
+              </div>
+              <div>
+                <h1 className="text-base font-bold text-gray-800">Part {currentPart} of 4</h1>
+                <p className="text-[10px] font-bold text-blue-600 uppercase tracking-widest flex items-center gap-1">
+                  {phase === 'playing' && <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" />}
+                  {phase === 'prep' ? `Preparing: ${phaseTime}s` : phase === 'playing' ? 'Live Audio' : phase === 'review' ? `Review: ${phaseTime}s` : 'Evaluating...'}
+                </p>
+              </div>
+            </div>
+
+            {/* Part section bubbles */}
+            <div className="flex gap-1">
+              {[1,2,3,4].map(p => (
+                <div key={p} className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black border transition-all ${
+                  p < currentPart ? 'bg-blue-600 text-white border-blue-600' :
+                  p === currentPart ? 'bg-white text-blue-600 border-blue-400 ring-2 ring-blue-200' :
+                  'bg-gray-100 text-gray-400 border-gray-200'
+                }`}>{p}</div>
+              ))}
             </div>
           </div>
-          <div className="text-right flex items-center gap-6">
-            <div>
-              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
-                {phase === 'prep' ? 'PREP TIMER' : phase === 'review' ? 'REVIEW TIMER' : 'TOTAL TIME'}
-              </p>
-              <p className={`text-xl font-mono font-black ${phase === 'review' ? 'text-rose-500' : 'text-gray-800'}`}>
-                {Math.floor(totalTime / 60)}:{(totalTime % 60).toString().padStart(2, '0')}
-              </p>
+
+          <div className="flex items-center gap-4">
+            {/* Speed controls */}
+            <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-1 border border-gray-200">
+              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider px-1">Speed</span>
+              {[0.9, 1.0, 1.25].map(rate => (
+                <button
+                  key={rate}
+                  onClick={() => {
+                    setPlaybackRate(rate);
+                    if (audioRef.current) audioRef.current.playbackRate = rate;
+                  }}
+                  className={`px-2 py-1 rounded text-xs font-bold transition-all ${
+                    playbackRate === rate
+                      ? 'bg-blue-600 text-white shadow-sm'
+                      : 'text-gray-500 hover:bg-gray-200'
+                  }`}
+                >
+                  {rate}×
+                </button>
+              ))}
+            </div>
+
+            {/* Timer */}
+            <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border font-mono font-bold text-sm ${
+              phase === 'review' ? 'bg-rose-50 border-rose-200 text-rose-600' : 'bg-gray-50 border-gray-200 text-gray-700'
+            }`}>
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              {Math.floor(totalTime/60)}:{(totalTime%60).toString().padStart(2,'0')}
             </div>
           </div>
         </div>
+
+        {/* Audio progress bar */}
         <div className="h-1 w-full bg-gray-100 overflow-hidden">
-          <div className="h-full bg-emerald-500 transition-all duration-500 ease-linear" style={{ width: `${phase === 'playing' ? audioProgress : 0}%` }} />
+          <div className="h-full bg-blue-500 transition-all duration-500 ease-linear" style={{ width: `${phase === 'playing' ? audioProgress : 0}%` }} />
         </div>
       </header>
 
-      <main className="flex-1 max-w-4xl w-full mx-auto p-8 pb-32">
-        <audio ref={audioRef} src={audioSrc} onEnded={handleAudioEnd} onTimeUpdate={(e) => setAudioProgress((e.target.currentTime / e.target.duration) * 100)} className="hidden" />
+      <main className="flex-1 max-w-4xl w-full mx-auto p-6 pb-24">
+
+        {/* Visible Audio player */}
+        <div className={`mb-6 bg-blue-50 border border-blue-200 rounded-2xl p-4 flex items-center gap-4 ${phase !== 'playing' ? 'opacity-60' : ''}`}>
+          <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+            phase === 'playing' ? 'bg-blue-600' : 'bg-gray-300'
+          }`}>
+            <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <div className="flex-1">
+            <p className="text-xs font-bold text-blue-700 mb-1">Section {currentPart} Audio</p>
+            <div className="w-full h-1.5 bg-blue-200 rounded-full overflow-hidden">
+              <div className="h-full bg-blue-600 rounded-full transition-all" style={{ width: `${audioProgress}%` }} />
+            </div>
+          </div>
+          <span className="text-xs font-mono font-bold text-blue-600">{Math.round(audioProgress)}%</span>
+          <audio
+            ref={audioRef}
+            src={audioSrc}
+            onEnded={handleAudioEnd}
+            onTimeUpdate={(e) => setAudioProgress((e.target.currentTime / e.target.duration) * 100)}
+            className="hidden"
+          />
+        </div>
         
         {showSectionReview && !isSectionEvaluating ? (
           <div className="space-y-8 animate-in fade-in slide-in-from-bottom-6 duration-1000">

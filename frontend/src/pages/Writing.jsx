@@ -324,20 +324,28 @@ function Writing() {
     <div className="min-h-screen flex flex-col h-screen overflow-hidden">
       <header className="sticky top-0 z-30 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between shadow-sm min-h-[72px]">
         <div className="flex items-center gap-4">
-          <h1 className="text-xl font-bold text-[#333333] tracking-tight">IELTS Writing</h1>
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-rose-100 flex items-center justify-center">
+              <svg className="w-4 h-4 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+            </div>
+            <h1 className="text-lg font-bold text-gray-800">IELTS Writing</h1>
+          </div>
           <div className="flex bg-gray-100 p-1 rounded-xl border border-gray-200">
-            <div className={`px-4 py-1.5 rounded-lg text-sm font-semibold transition-all focus-ring ${activeTask === 1 ? 'bg-[#7E3AF2] text-white shadow-sm' : 'text-gray-500 hover:text-gray-700 cursor-pointer hover:bg-gray-200/50'}`} onClick={() => setActiveTask(1)}>
+            <div className={`px-4 py-1.5 rounded-lg text-sm font-semibold transition-all cursor-pointer ${activeTask === 1 ? 'bg-rose-600 text-white shadow-sm' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-200/50'}`} onClick={() => setActiveTask(1)}>
               Task 1
             </div>
-            <div className={`px-4 py-1.5 rounded-lg text-sm font-semibold transition-all focus-ring ${activeTask === 2 ? 'bg-[#7E3AF2] text-white shadow-sm' : 'text-gray-500 hover:text-gray-700 cursor-pointer hover:bg-gray-200/50'}`} onClick={() => setActiveTask(2)}>
+            <div className={`px-4 py-1.5 rounded-lg text-sm font-semibold transition-all cursor-pointer ${activeTask === 2 ? 'bg-rose-600 text-white shadow-sm' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-200/50'} ${!isTask1Complete ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}`} onClick={() => isTask1Complete && setActiveTask(2)}>
               Task 2
             </div>
           </div>
         </div>
         <div className="flex items-center gap-4">
           <Timer key="writing-total-timer" durationMinutes={60} onComplete={handleSubmitRequest} />
-          <button onClick={activeTask === 1 ? handleTask1Submit : handleSubmitRequest} className="btn-primary">
-            {activeTask === 1 ? "Submit Task 1 & Continue" : "Submit Final Answers"}
+          <button
+            onClick={activeTask === 1 ? handleTask1Submit : handleSubmitRequest}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-sm shadow-sm shadow-rose-200 transition-all active:scale-95"
+          >
+            {activeTask === 1 ? "Next: Task 2 →" : "Submit Final Answers"}
           </button>
         </div>
       </header>
@@ -359,45 +367,102 @@ function Writing() {
             </div>
           ) : (
             <>
-              <h2 className="text-2xl font-bold text-[#333333] mb-6">
-                {activeTask === 1 ? "Academic Writing Task 1" : "Academic Writing Task 2"}
-              </h2>
-              
-              <div className="p-4 bg-amber-50 rounded-xl border border-amber-200 mb-8 shadow-sm">
+              <div className="flex items-center gap-2 mb-4">
+                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-rose-100 text-rose-700 text-xs font-black uppercase tracking-widest border border-rose-200">
+                  {activeTask === 1 ? "Task 1 — Data Description" : "Task 2 — Essay"}
+                </span>
+                <span className="text-xs text-gray-400 font-medium">{activeTask === 1 ? "min. 150 words" : "min. 250 words"}</span>
+              </div>
+
+              <div className="p-4 bg-amber-50 rounded-xl border border-amber-200 mb-5 shadow-sm">
                 <p className="text-amber-700 text-sm font-semibold flex items-center gap-2">
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                  60 minutes total for both tasks. Suggested: 20m for Task 1, 40m for Task 2.
+                  <svg className="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  60 minutes total. Suggested: 20 min Task 1, 40 min Task 2.
                 </p>
               </div>
- 
-              <div className="prose prose-p:text-gray-700 text-base leading-relaxed">
-                <div className="whitespace-pre-wrap font-medium text-[#333333] mb-4">
-                  {activeTask === 1 ? task1Question : task2Question}
-                </div>
+
+              <div className="whitespace-pre-wrap text-[#333333] font-medium text-sm leading-relaxed mb-5">
+                {activeTask === 1 ? task1Question : task2Question}
               </div>
+
+              {/* Chart placeholder for Task 1 */}
+              {activeTask === 1 && (
+                <div className="mt-4 bg-gray-50 border-2 border-dashed border-gray-200 rounded-2xl p-6">
+                  <p className="text-xs font-black text-gray-400 uppercase tracking-widest text-center mb-4">Chart / Diagram</p>
+                  <svg viewBox="0 0 320 160" className="w-full" xmlns="http://www.w3.org/2000/svg">
+                    {/* Axes */}
+                    <line x1="40" y1="10" x2="40" y2="140" stroke="#d1d5db" strokeWidth="2"/>
+                    <line x1="40" y1="140" x2="310" y2="140" stroke="#d1d5db" strokeWidth="2"/>
+                    {/* Bars */}
+                    {[
+                      {x:60, h:80, color:"#FDA4AF"},{x:110,h:110,color:"#F43F5E"},{x:160,h:60,color:"#FDA4AF"},
+                      {x:210,h:130,color:"#F43F5E"},{x:260,h:90,color:"#FDA4AF"}
+                    ].map((b,i) => (
+                      <g key={i}>
+                        <rect x={b.x} y={140-b.h} width="32" height={b.h} rx="4" fill={b.color} opacity="0.8"/>
+                        <text x={b.x+16} y={155} textAnchor="middle" fontSize="9" fill="#9ca3af">{["2019","2020","2021","2022","2023"][i]}</text>
+                      </g>
+                    ))}
+                    {/* Y-axis labels */}
+                    {[0,25,50,75,100].map((v,i) => (
+                      <text key={i} x={35} y={140-v*1.2} textAnchor="end" fontSize="8" fill="#9ca3af">{v}</text>
+                    ))}
+                  </svg>
+                  <p className="text-[10px] text-gray-400 text-center mt-2 italic">Sample bar chart — refer to your test prompt</p>
+                </div>
+              )}
             </>
           )}
         </div>
 
-        {/* Right: Text Area */}
+        {/* Right: Text Area + Word Counter */}
         <div className="bg-white border border-gray-200 shadow-sm rounded-2xl p-6 flex flex-col relative">
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="text-lg font-bold text-[#333333] flex items-center gap-2">
-              <svg className="w-5 h-5 text-[#7E3AF2]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-base font-bold text-gray-800 flex items-center gap-2">
+              <svg className="w-4 h-4 text-rose-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
               Your Answer
             </h3>
-            <div className={`px-4 py-1.5 rounded-full text-xs font-bold border ${(activeTask === 1 ? task1WordCount >= 150 : task2WordCount >= 250) ? 'bg-emerald-100 text-emerald-700 border-emerald-200' : 'bg-amber-100 text-amber-700 border-amber-200'}`}>
-              {activeTask === 1 ? task1WordCount : task2WordCount} / {activeTask === 1 ? '150' : '250'} words
+            <div className="flex items-center gap-2">
+              {/* Word count progress bar */}
+              <div className="flex items-center gap-2">
+                <div className="w-20 h-1.5 rounded-full bg-gray-100 overflow-hidden">
+                  <div
+                    className={`h-full rounded-full transition-all duration-300 ${
+                      (activeTask === 1 ? task1WordCount >= 150 : task2WordCount >= 250)
+                        ? 'bg-emerald-500' : 'bg-rose-400'
+                    }`}
+                    style={{ width: `${Math.min(100, ((activeTask === 1 ? task1WordCount : task2WordCount) / (activeTask === 1 ? 150 : 250)) * 100)}%` }}
+                  />
+                </div>
+                <span className={`text-xs font-bold ${
+                  (activeTask === 1 ? task1WordCount >= 150 : task2WordCount >= 250)
+                    ? 'text-emerald-600' : 'text-rose-500'
+                }`}>
+                  {activeTask === 1 ? task1WordCount : task2WordCount}
+                  <span className="text-gray-400 font-normal"> / {activeTask === 1 ? 150 : 250}</span>
+                </span>
+              </div>
             </div>
           </div>
-          
+
           <textarea
             value={activeTask === 1 ? task1Text : task2Text}
             onChange={(e) => activeTask === 1 ? setTask1Text(e.target.value) : setTask2Text(e.target.value)}
             placeholder="Start typing your response here..."
-            className="flex-1 w-full p-5 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:border-[#7E3AF2] focus:ring-1 focus:ring-[#7E3AF2] outline-none resize-none transition-all placeholder:text-gray-400 text-[#333333] font-sans custom-scrollbar leading-relaxed"
+            className="flex-1 w-full p-5 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:border-rose-400 focus:ring-1 focus:ring-rose-300 outline-none resize-none transition-all placeholder:text-gray-400 text-gray-800 font-sans custom-scrollbar leading-relaxed text-sm"
             spellCheck="false"
           />
+
+          {/* 4-metric AI band score hint */}
+          <div className="mt-4 grid grid-cols-2 gap-2">
+            {["Task Achievement","Coherence & Cohesion","Lexical Resource","Grammar"].map((metric) => (
+              <div key={metric} className="flex items-center gap-2 bg-gray-50 rounded-lg px-3 py-2 border border-gray-100">
+                <div className="w-2 h-2 rounded-full bg-rose-300 flex-shrink-0" />
+                <span className="text-[10px] font-semibold text-gray-500">{metric}</span>
+              </div>
+            ))}
+          </div>
+          <p className="text-[10px] text-gray-400 mt-2 text-center">AI will score all 4 criteria on submission</p>
         </div>
       </main>
 

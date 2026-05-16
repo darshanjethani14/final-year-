@@ -147,31 +147,35 @@ function Dashboard() {
       icon: HeadphonesIcon,
       colorClass: "stroke-blue-500",
       bgClass: "bg-blue-50 border-blue-200 text-blue-600",
-      btnClass: "bg-blue-600 hover:bg-blue-700 shadow-sm"
+      btnClass: "bg-blue-600 hover:bg-blue-700",
+      ringColor: "stroke-blue-500",
     },
     {
       name: "Reading",
       score: latestScores.reading,
       icon: BookOpenIcon,
-      colorClass: "stroke-emerald-500",
-      bgClass: "bg-emerald-50 border-emerald-200 text-emerald-600",
-      btnClass: "bg-emerald-600 hover:bg-emerald-700 shadow-sm"
+      colorClass: "stroke-teal-500",
+      bgClass: "bg-teal-50 border-teal-200 text-teal-600",
+      btnClass: "bg-teal-600 hover:bg-teal-700",
+      ringColor: "stroke-teal-500",
     },
     {
       name: "Writing",
       score: latestScores.writing,
       icon: EditIcon,
-      colorClass: "stroke-purple-500",
-      bgClass: "bg-purple-50 border-purple-200 text-purple-600",
-      btnClass: "bg-purple-600 hover:bg-purple-700 shadow-sm"
+      colorClass: "stroke-rose-500",
+      bgClass: "bg-rose-50 border-rose-200 text-rose-600",
+      btnClass: "bg-rose-600 hover:bg-rose-700",
+      ringColor: "stroke-rose-500",
     },
     {
       name: "Speaking",
       score: latestScores.speaking,
       icon: MicIcon,
-      colorClass: "stroke-orange-500",
-      bgClass: "bg-orange-50 border-orange-200 text-orange-600",
-      btnClass: "bg-orange-600 hover:bg-orange-700 shadow-sm"
+      colorClass: "stroke-violet-500",
+      bgClass: "bg-violet-50 border-violet-200 text-violet-600",
+      btnClass: "bg-violet-600 hover:bg-violet-700",
+      ringColor: "stroke-violet-500",
     }
   ];
 
@@ -290,9 +294,9 @@ function Dashboard() {
                             <div className="flex items-center gap-3">
                               <div className={`p-2 rounded-lg bg-gray-100 group-hover:bg-white transition-colors`}>
                                 {test.module === 'listening' ? <HeadphonesIcon className="w-4 h-4 text-blue-500" /> : 
-                                 test.module === 'reading' ? <BookOpenIcon className="w-4 h-4 text-emerald-500" /> :
-                                 test.module === 'writing' ? <EditIcon className="w-4 h-4 text-purple-500" /> :
-                                 <MicIcon className="w-4 h-4 text-orange-500" />}
+                                 test.module === 'reading' ? <BookOpenIcon className="w-4 h-4 text-teal-500" /> :
+                                 test.module === 'writing' ? <EditIcon className="w-4 h-4 text-rose-500" /> :
+                                 <MicIcon className="w-4 h-4 text-violet-500" />}
                               </div>
                               <span className="font-bold text-gray-700 capitalize">{test.module}</span>
                             </div>

@@ -124,3 +124,21 @@ body {
 .glow-border {
   @apply ring-2 ring-indigo-400/50 ring-offset-2 ring-offset-transparent shadow-[0_0_15px_rgba(99,102,241,0.4)];
 }
+
+/* ─── Waveform animation (Speaking module) ───────────────────── */
+@keyframes waveform-bar {
+  0%, 100% { transform: scaleY(0.25); }
+  50%       { transform: scaleY(1); }
+}
+.animate-waveform-bar {
+  animation: waveform-bar 0.7s ease-in-out infinite;
+  transform-origin: bottom;
+}
+
+/* ─── Module accent CSS vars ─────────────────────────────────── */
+:root {
+  --speaking-color: #7E3AF2;
+  --writing-color:  #F43F5E;
+  --listening-color:#3B82F6;
+  --reading-color:  #14B8A6;
+}

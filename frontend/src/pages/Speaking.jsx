@@ -503,105 +503,189 @@ function Speaking() {
 
   // ── MAIN TEST SCREEN ──
   return (
-    <div className="min-h-screen flex flex-col">
-      <header className="sticky top-0 z-30 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between shadow-sm min-h-[72px]">
-        <h1 className="text-xl font-bold text-[#333333] tracking-tight">IELTS Speaking</h1>
-        <PartDots current={currentPart} />
+    <div className="min-h-screen flex flex-col bg-[#F8F9FA]">
+      {/* Header */}
+      <header className="sticky top-0 z-30 bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between shadow-sm">
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-violet-100 flex items-center justify-center">
+              <svg className="w-4 h-4 text-violet-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </div>
+            <h1 className="text-lg font-bold text-gray-800">IELTS Speaking</h1>
+          </div>
+
+          {/* Part tab pills */}
+          <div className="flex gap-1 bg-gray-100 p-1 rounded-xl border border-gray-200">
+            {parts.map((p, i) => {
+              const done = i < currentPart;
+              const active = i === currentPart;
+              const locked = i > currentPart;
+              return (
+                <button
+                  key={p.part}
+                  disabled={locked}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                    active ? 'bg-violet-600 text-white shadow-sm' :
+                    done ? 'bg-violet-100 text-violet-700' :
+                    'text-gray-400 cursor-not-allowed'
+                  }`}
+                >
+                  {done ? (
+                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/></svg>
+                  ) : locked ? (
+                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                  ) : null}
+                  Part {p.part}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Timer */}
+        <div className={`flex items-center gap-2 px-4 py-2 rounded-xl border font-mono font-bold text-sm ${timeLeft <= 15 ? 'bg-rose-50 border-rose-200 text-rose-600 animate-pulse' : 'bg-gray-50 border-gray-200 text-gray-700'}`}>
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          {formatTime(timeLeft)}
+        </div>
       </header>
 
-      <main className="flex-1 max-w-4xl w-full mx-auto p-6 flex flex-col gap-6">
-        {/* Question card */}
-        <div className="bg-white border border-gray-200 shadow-sm rounded-2xl p-8">
-          <p className="text-xs font-bold uppercase tracking-widest text-[#7E3AF2] mb-2">
-            Part {currentDetails.part} of {parts.length}
-          </p>
-          <h2 className="text-2xl font-bold text-[#333333] mb-4">{currentDetails.title}</h2>
-          <div className="bg-gray-50 p-5 rounded-2xl border border-gray-200 shadow-sm">
-            {currentDetails.prompt.split("\n").map((line, i) => (
-              <p
-                key={i}
-                className={
-                  i === 0
-                    ? "font-semibold text-[#333333] mb-3"
-                    : "text-gray-600 text-sm mb-2 ml-4 relative before:absolute before:-left-4 before:content-['•'] before:text-[#7E3AF2]"
-                }
-              >
-                {line.replace(/^-\s/, "")}
+      {/* Split body */}
+      <main className="flex-1 max-w-7xl w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-5 gap-6">
+
+        {/* ── LEFT PANEL: Question ── */}
+        <div className="lg:col-span-3 flex flex-col gap-5">
+
+          {/* Part badge + title */}
+          <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-violet-100 text-violet-700 text-xs font-black uppercase tracking-widest border border-violet-200">
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                Part {currentDetails.part} of {parts.length}
+              </span>
+              {isRecording && (
+                <span className="flex items-center gap-1 px-2 py-1 rounded-full bg-rose-100 text-rose-600 text-xs font-bold border border-rose-200 animate-pulse">
+                  <span className="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Recording
+                </span>
+              )}
+            </div>
+            <h2 className="text-xl font-bold text-gray-800 mb-4">{currentDetails.title}</h2>
+
+            {/* Progress bar */}
+            <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden mb-5">
+              <div className="h-full bg-violet-500 rounded-full transition-all duration-1000" style={{ width: `${progress}%` }} />
+            </div>
+
+            {/* Prompt card */}
+            <div className="bg-violet-50/50 border border-violet-100 rounded-xl p-5">
+              {currentDetails.prompt.split("\n").map((line, i) => (
+                <p key={i} className={i === 0
+                  ? "font-semibold text-gray-800 mb-2"
+                  : "text-gray-600 text-sm mb-1.5 ml-4 relative before:absolute before:-left-4 before:content-['•'] before:text-violet-400"
+                }>
+                  {line.replace(/^-\s/, "")}
+                </p>
+              ))}
+            </div>
+          </div>
+
+          {/* Previous part scores (if any) */}
+          {partScores.some(s => s !== null) && (
+            <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
+              <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                <svg className="w-3.5 h-3.5 text-violet-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                Previous Part Scores
               </p>
-            ))}
-          </div>
-        </div>
-
-        {/* Timer card */}
-        <div className="bg-white border border-gray-200 shadow-sm rounded-2xl p-6 flex items-center gap-6">
-          <div className="flex flex-col items-center min-w-[80px]">
-            <span className={`text-3xl font-mono font-bold ${timeLeft <= 15 ? "text-rose-500 animate-pulse" : "text-[#333333]"}`}>
-              {formatTime(timeLeft)}
-            </span>
-            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">remaining</span>
-          </div>
-          {/* Progress bar */}
-          <div className="flex-1 h-3 rounded-full bg-gray-100 overflow-hidden border border-gray-200">
-            <div
-              className="h-full rounded-full bg-[#7E3AF2] transition-all duration-1000 shadow-sm"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-          <div className="px-4 py-2 rounded-xl text-xs font-bold bg-gray-50 border border-gray-200 text-gray-500 uppercase tracking-widest">
-            {isRecording ? "🔴 Recording" : "🕒 Timer Auto-Starts"}
-          </div>
-        </div>
-
-        {/* Recording Interface */}
-        <div className="bg-white border border-gray-200 shadow-sm rounded-2xl p-8 flex flex-col items-center justify-center gap-6 min-h-[240px]">
-          <h3 className="text-lg font-bold text-[#333333]">Your Response</h3>
-
-          {isRecording ? (
-            <div className="flex flex-col items-center gap-4">
-              <div className="w-24 h-24 bg-rose-50 rounded-full flex items-center justify-center relative border border-rose-200">
-                <div className="absolute inset-0 rounded-full border-4 border-rose-400 animate-ping opacity-50" />
-                <svg className="w-10 h-10 text-rose-500 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
+              <div className="flex gap-3">
+                {partScores.map((score, idx) => score !== null && (
+                  <div key={idx} className="flex-1 bg-violet-50 border border-violet-200 rounded-xl p-3 text-center">
+                    <p className="text-[10px] font-bold text-violet-400 uppercase tracking-wider">Part {idx + 1}</p>
+                    <p className="text-2xl font-black text-violet-700">{score.toFixed(1)}</p>
+                  </div>
+                ))}
               </div>
-              <button onClick={stopRecording} className="px-8 py-3 bg-rose-600 hover:bg-rose-700 focus-ring text-white font-bold rounded-xl shadow-sm transition-colors border border-rose-700">
-                Stop Recording
-              </button>
-            </div>
-          ) : answers[currentPart] ? (
-            <div className="flex flex-col items-center gap-5 w-full max-w-md">
-              <div className="w-20 h-20 bg-emerald-50 border border-emerald-200 rounded-full flex items-center justify-center shadow-sm">
-                <svg className="w-10 h-10 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-              <div className="flex flex-col items-center gap-4 w-full">
-                <audio src={URL.createObjectURL(answers[currentPart])} controls className="h-12 w-full rounded-xl" />
-                <button onClick={startRecording} className="px-6 py-2.5 bg-gray-50 border border-gray-200 hover:bg-gray-100 focus-ring text-gray-700 font-bold rounded-xl transition-colors text-sm">
-                  Re-record
-                </button>
-              </div>
-            </div>
-          ) : (
-            <div className="flex flex-col items-center gap-5">
-              <div className="w-24 h-24 bg-[#7E3AF2]/10 border border-[#7E3AF2]/20 rounded-full flex items-center justify-center cursor-pointer hover:bg-[#7E3AF2]/20 hover:scale-105 transition-all group focus-ring" onClick={startRecording} tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && startRecording()}>
-                <svg className="w-10 h-10 text-[#7E3AF2] group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-              </div>
-              <p className="text-gray-500 text-sm font-medium">Click microphone to start recording</p>
             </div>
           )}
         </div>
 
-        {/* Action button */}
-        <div className="flex justify-end pb-10 mt-4">
+        {/* ── RIGHT PANEL: Recording ── */}
+        <div className="lg:col-span-2 flex flex-col gap-5">
+
+          {/* Mic + Waveform card */}
+          <div className="bg-white border border-gray-200 rounded-2xl p-7 shadow-sm flex flex-col items-center gap-6 flex-1">
+            <h3 className="text-sm font-black text-gray-500 uppercase tracking-widest">Your Response</h3>
+
+            {/* Waveform visualizer */}
+            <div className="w-full flex items-end justify-center gap-0.5 h-16 px-2">
+              {Array.from({ length: 28 }).map((_, i) => {
+                const heights = [30,45,70,55,80,60,40,75,50,65,85,45,60,90,55,70,40,80,55,65,45,75,60,50,80,40,65,55];
+                return (
+                  <div
+                    key={i}
+                    className={`flex-1 rounded-full transition-all duration-300 ${
+                      isRecording ? 'bg-violet-500 animate-waveform-bar' : 'bg-gray-200'
+                    }`}
+                    style={{
+                      height: isRecording ? `${heights[i]}%` : '20%',
+                      animationDelay: `${i * 0.04}s`,
+                      animationDuration: `${0.5 + (i % 5) * 0.1}s`,
+                    }}
+                  />
+                );
+              })}
+            </div>
+
+            {/* Mic button */}
+            {isRecording ? (
+              <div className="flex flex-col items-center gap-4">
+                <button
+                  onClick={stopRecording}
+                  className="w-20 h-20 rounded-full bg-rose-600 hover:bg-rose-700 flex items-center justify-center shadow-lg shadow-rose-200 transition-all active:scale-95 relative"
+                >
+                  <div className="absolute inset-0 rounded-full border-4 border-rose-400 animate-ping opacity-40" />
+                  <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z" />
+                  </svg>
+                </button>
+                <p className="text-sm font-semibold text-rose-600">Tap to stop recording</p>
+              </div>
+            ) : answers[currentPart] ? (
+              <div className="flex flex-col items-center gap-4 w-full">
+                <div className="w-16 h-16 rounded-full bg-emerald-100 border border-emerald-300 flex items-center justify-center">
+                  <svg className="w-8 h-8 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <audio src={URL.createObjectURL(answers[currentPart])} controls className="w-full h-10 rounded-xl" />
+                <button onClick={startRecording} className="text-sm text-gray-500 hover:text-violet-600 font-semibold transition-colors underline underline-offset-2">
+                  Re-record
+                </button>
+              </div>
+            ) : (
+              <div className="flex flex-col items-center gap-4">
+                <button
+                  onClick={startRecording}
+                  className="w-20 h-20 rounded-full bg-violet-600 hover:bg-violet-700 flex items-center justify-center shadow-lg shadow-violet-200 transition-all hover:scale-105 active:scale-95"
+                >
+                  <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                </button>
+                <p className="text-sm text-gray-400 font-medium text-center">Tap the mic to<br/>start recording</p>
+              </div>
+            )}
+          </div>
+
+          {/* Evaluate button */}
           <button
             onClick={handleNext}
             disabled={!answers[currentPart] || isRecording}
-            className="btn-primary py-4 px-8 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            className="w-full py-4 rounded-2xl bg-violet-600 hover:bg-violet-700 text-white font-bold shadow-lg shadow-violet-200 transition-all active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none disabled:transform-none flex items-center justify-center gap-2"
           >
-            {currentPart === parts.length - 1 ? "✨ Evaluate & Complete" : "✨ Evaluate Part & Continue →"}
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            {currentPart === parts.length - 1 ? "Evaluate & Complete" : `Evaluate & Continue →`}
           </button>
         </div>
       </main>
